@@ -1,23 +1,24 @@
-name: tianqi
+name: ruby-versions
 on:
-  schedule:
-  - cron:  '0 0 * * *'
-  workflow_dispatch:
-
+    push:
+      branches:
+        - main
 jobs:
-  send_message:
-    runs-on: ubuntu-latest
-    name: send morning to your girlfriend
-
+  run:
+    name: Ruby 
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        version: [2.5.x, 2.6, 2.7.x]
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
-      with:
-        ref: master
+    - name: Checkout
+      uses: actions/checkout@v2
 
-    - name: sender
-      uses: actions/setup-ruby@v2
+    - name: use-ruby ${{ matrix.version }}
+      uses: ./
       with:
-        ruby-version: '3.x'
-        architecture: 'x64'
-    - run: ruby ./tianqi.py
+        ruby-version: ${{ matrix.version}}
+
+    - name: ruby version
+      run: ruby -v
