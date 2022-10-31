@@ -1,12 +1,20 @@
-name: Hello World	
+name: tianqi
 
-on: [push]	
+language: ruby
+cache: bundler
+rvm:
+  - 2.7.0
+before_install: gem install bundler -v 2.1.4
 
-jobs:	
-  hello_world_job:		
-    runs-on: ubuntu-latest	
-    steps:	
-    - uses: timburgan/actions-example/.github/actions/hello_world@master	
-      with:	
-        repo-token: ${{ secrets.GITHUB_TOKEN }}	
-        hello_message: 'Ohhh nice...!'
+on:
+  schedule:
+  - cron:  '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+ build:
+    runs-on: ubuntu-latest
+    name: send msg
+    steps:
+      - name: run rb
+        run: ruby ./tianqi.rb
