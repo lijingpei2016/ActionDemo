@@ -10,4 +10,4 @@ jobs:
     name: send msg
     steps:
       - name: run rb
-        run: ruby ./tianqi.rb
+        run: ruby tianqi.rb
