@@ -1,19 +1,23 @@
 name: tianqi
-
-language: ruby
-rvm:
-  - 2.7.0
-before_install: gem install bundler -v 2.1.4
-
 on:
   schedule:
   - cron:  '0 0 * * *'
   workflow_dispatch:
 
 jobs:
- build:
+  send_message:
     runs-on: ubuntu-latest
-    name: send msg
+    name: send morning to your girlfriend
+
     steps:
-      - name: run rb
-        run: ruby ./tianqi.rb
+    - name: checkout
+      uses: actions/checkout@v3
+      with:
+        ref: master
+
+    - name: sender
+      uses: actions/setup-ruby@v2
+      with:
+        ruby-version: '3.x'
+        architecture: 'x64'
+    - run: ruby ./tianqi.py
