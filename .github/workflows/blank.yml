@@ -1,24 +1,23 @@
-name: ruby-versions
+name: Ruby
+
 on:
-    push:
-      branches:
-        - main
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  run:
-    name: Ruby 
+  test:
+
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        operating-system: [ubuntu-latest]
-        version: [2.6.x]
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: use-ruby ${{ matrix.version }}
-      uses: ./
-      with:
-        ruby-version: ${{ matrix.version}}
-
-    - name: ruby version
-      run: ruby -v
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        with:
+          ruby-version: '3.1'
+      - name: Install dependencies
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake
